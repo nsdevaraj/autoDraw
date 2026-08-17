@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "kind": "sketch-embedder",
+  "classes": [
+    "airplane",
+    "apple",
+    "banana",
+    "bicycle",
+    "bird",
+    "book",
+    "cake",
+    "camera",
+    "car",
+    "cat",
+    "chair",
+    "clock",
+    "cloud",
+    "coffee cup",
+    "computer",
+    "door",
+    "eye",
+    "face",
+    "fish",
+    "flower",
+    "hamburger",
+    "hand",
+    "house",
+    "ice cream",
+    "key",
+    "light bulb",
+    "moon",
+    "mountain",
+    "pencil",
+    "pizza",
+    "rain",
+    "rainbow",
+    "star",
+    "sun",
+    "tree",
+    "truck",
+    "umbrella"
+  ],
+  "trainingData": {
+    "sketchCacheFingerprint": "5d56d8dd9ccc445000f843298d921611e777f90010f75bdfd344988a67b2f4bb",
+    "iconCacheFingerprint": "94a2d3e022c8d482df631fa87756ea7a19e768bb829caa853ca78c2430a62e8b",
+    "iconCounts": {
+      "planned": 480,
+      "kept": 479,
+      "train": 439,
+      "holdout": 40,
+      "byStatus": {
+        "ok": 479,
+        "unreadable": 1,
+        "empty": 0,
+        "inkOutOfBand": 0
+      },
+      "minPerClass": 11,
+      "sparseClasses": []
+    },
+    "source": {
+      "repository": "https://github.com/nsdevaraj/SVGDepot.git",
+      "commit": "5d05c6fa39b9d193d408d203e72f98e3e78c5b3b"
+    }
+  },
+  "model": {
+    "filename": "sketch-embedder.onnx",
+    "format": "ONNX",
+    "opset": 17,
+    "bytes": 2009324,
+    "sha256": "3243c8679464f88431cf061dfd632843ec3a5377ff17999e126f0425d9e3713a",
+    "parameterCount": 501798,
+    "embeddingDim": 64,
+    "input": {
+      "name": "bitmap",
+      "dtype": "float32",
+      "shape": [
+        "batch",
+        1,
+        64,
+        64
+      ],
+      "normalization": "uint8 / 255"
+    },
+    "outputs": {
+      "embedding": {
+        "name": "embedding",
+        "dtype": "float32",
+        "shape": [
+          "batch",
+          64
+        ],
+        "normalization": "L2"
+      },
+      "logits": {
+        "name": "logits",
+        "dtype": "float32",
+        "shape": [
+          "batch",
+          37
+        ]
+      }
+    }
+  },
+  "rasterizer": {
+    "worker": "scripts/rasterize-svg-worker.mjs",
+    "size": 64,
+    "padding": 4,
+    "strokeWidth": 2.5,
+    "supersample": 4,
+    "minInk": 0.01,
+    "maxInk": 0.6
+  },
+  "metrics": {
+    "classification": {
+      "accuracy": 0.9022162162162162,
+      "top5Accuracy": 0.9772972972972973,
+      "perClassAccuracy": [
+        0.904,
+        0.948,
+        0.754,
+        0.868,
+        0.788,
+        0.826,
+        0.936,
+        0.962,
+        0.846,
+        0.832,
+        0.914,
+        0.958,
+        0.924,
+        0.882,
+        0.878,
+        0.956,
+        0.902,
+        0.856,
+        0.912,
+        0.892,
+        0.952,
+        0.924,
+        0.972,
+        0.948,
+        0.91,
+        0.88,
+        0.79,
+        0.972,
+        0.87,
+        0.896,
+        0.938,
+        0.956,
+        0.946,
+        0.934,
+        0.9,
+        0.894,
+        0.962
+      ]
+    },
+    "retrieval": {
+      "all": {
+        "recallAt1": 0.8878378378378379,
+        "recallAt5": 0.918,
+        "recallAt10": 0.9308648648648649,
+        "perClassRecallAt10": [
+          0.914,
+          0.964,
+          0.802,
+          0.928,
+          0.9,
+          0.88,
+          0.942,
+          0.962,
+          0.908,
+          0.874,
+          0.944,
+          0.968,
+          0.952,
+          0.906,
+          0.89,
+          0.974,
+          0.92,
+          0.898,
+          0.952,
+          0.914,
+          0.96,
+          0.952,
+          0.98,
+          0.954,
+          0.948,
+          0.896,
+          0.846,
+          0.978,
+          0.902,
+          0.914,
+          0.958,
+          0.976,
+          0.972,
+          0.97,
+          0.958,
+          0.926,
+          0.96
+        ]
+      },
+      "holdoutIcons": {
+        "recallAt1": 0.7225405405405405,
+        "recallAt5": 0.8932972972972973,
+        "recallAt10": 0.9657297297297297,
+        "perClassRecallAt10": [
+          0.966,
+          0.98,
+          0.986,
+          0.984,
+          0.986,
+          0.984,
+          0.98,
+          0.988,
+          0.986,
+          0.986,
+          0.936,
+          0.876,
+          0.986,
+          0.962,
+          0.97,
+          0.994,
+          0.956,
+          0.968,
+          0.988,
+          0.986,
+          0.986,
+          0.726,
+          0.996,
+          0.984,
+          0.974,
+          0.984,
+          0.978,
+          0.982,
+          0.75,
+          0.976,
+          0.99,
+          0.998,
+          0.994,
+          0.992,
+          0.994,
+          0.992,
+          0.988
+        ]
+      }
+    },
+    "maxLogitDifference": 2.9727816581726074e-06
+  },
+  "training": {
+    "epochs": 8,
+    "batchSize": 256,
+    "optimizer": {
+      "name": "AdamW",
+      "learningRate": 0.001,
+      "weightDecay": 0.0001
+    },
+    "temperature": 0.07,
+    "classificationWeight": 1.0,
+    "seed": 20260815,
+    "deterministicAlgorithms": true,
+    "minClassAccuracy": 0.7,
+    "minRecallAt10": 0.7,
+    "minClassRecallAt10": 0.7,
+    "weakClasses": {
+      "byRecall": [],
+      "byClassification": []
+    }
+  },
+  "runtime": {
+    "python": "3.9.6",
+    "numpy": "1.26.4",
+    "torch": "2.8.0",
+    "onnx": "1.19.1",
+    "onnxruntime": "1.19.2"
+  },
+  "source": {
+    "files": {
+      "model/sketch_embedder.py": "910cba4fca9234231b52ee216c3a3c1d7d4bea544e8dea2de5816d822c9b6ae0",
+      "model/quickdraw_cnn.py": "cb1906705fdae3d6cb67e1b897558fb01a040bf3400051d5c03d2709e1f19c8f",
+      "model/integrity.py": "8b2aaa5ead6ec5739acaf279926deb553bc945eb8a3d5ccadb3fd20d3021c2a9",
+      "scripts/build-embedding-cache.py": "94413b5a1dc47de92e5fe978ad8fe9d91bc16453b2b7c2102f2c46250177f6c5",
+      "scripts/rasterize-svg-worker.mjs": "6f3ae6a04714b4dc35ad07deac234fc297f1d9e931ede6c34e17cfd1eeaeece9",
+      "scripts/train-sketch-embedder.py": "baddd6b1f60c8102e42bc59607841900e148e9e90798a7c5a703e7a159c6de67",
+      "src/svg-to-polylines.mjs": "b4f994fc6509167db99fdfecad7f400abdf98eb5cbb8c9857e0ec01020702865",
+      "src/sketch-rasterizer.mjs": "73f93553d1961265f8c0a63519b91da736f2bd4f081d6699ed60ba3b74eafa59"
+    }
+  },
+  "fingerprint": "fecbbbde3387ea29916ac4135167ccfb18b8a23e8a1d28a851df3b3c60845dc8"
+}

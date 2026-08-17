@@ -1,0 +1,1261 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "dataset": "Quick, Draw! Sketch-RNN",
+    "creator": "Google, Inc.",
+    "attribution": "Quick, Draw! Dataset by Google, Inc., licensed under CC BY 4.0.",
+    "baseUrl": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn",
+    "format": "Sketch-RNN stroke-3 NPZ",
+    "license": "CC BY 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+    "documentation": "https://github.com/googlecreativelab/quickdraw-dataset",
+    "expectedSplits": {
+      "train": 70000,
+      "valid": 2500,
+      "test": 2500
+    }
+  },
+  "classes": [
+    {
+      "name": "airplane",
+      "filename": "airplane.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/airplane.npz",
+      "bytes": 11601327,
+      "sha256": "dbcf34d0dbeb474b8ed098aff6211b0a7a2c85fe5d866b55c9e7d440e106e24f",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 29,
+          "maxSequenceLength": 99
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 29,
+          "maxSequenceLength": 99
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 29,
+          "maxSequenceLength": 99
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "apple",
+      "filename": "apple.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/apple.npz",
+      "bytes": 8021079,
+      "sha256": "91ce5826f20b009da02fe537d483c8969d7b27d8cef7495bfa984272714517d2",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 22,
+          "maxSequenceLength": 62
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 22,
+          "maxSequenceLength": 62
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 22,
+          "maxSequenceLength": 62
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "banana",
+      "filename": "banana.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/banana.npz",
+      "bytes": 7204690,
+      "sha256": "576c858dc7e03d931c1260c605337e8b02d89aec8a14568acaccfd6f5d221ffd",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 14,
+          "maxSequenceLength": 73
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 14,
+          "maxSequenceLength": 73
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 14,
+          "maxSequenceLength": 73
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "bicycle",
+      "filename": "bicycle.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/bicycle.npz",
+      "bytes": 14511843,
+      "sha256": "31b439b8b0a78eb7b26153bb883032d1365c9e865269226fa0d19abbb57bcd05",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 116
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 116
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 116
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "bird",
+      "filename": "bird.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/bird.npz",
+      "bytes": 12494423,
+      "sha256": "f6e0cd0975e245e3c6345f1f519a999a6619493b35aef2a290f96fa90f076de3",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 18,
+          "maxSequenceLength": 112
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 18,
+          "maxSequenceLength": 112
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 18,
+          "maxSequenceLength": 112
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "book",
+      "filename": "book.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/book.npz",
+      "bytes": 11481465,
+      "sha256": "02770d8b4f982b50431dae43dda36062388c4ab53d4db63a4fbf3c06a81d9f0c",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 23,
+          "maxSequenceLength": 101
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 23,
+          "maxSequenceLength": 101
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 23,
+          "maxSequenceLength": 101
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "bus",
+      "filename": "bus.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/bus.npz",
+      "bytes": 17980767,
+      "sha256": "5476f4fd68aa73442a76b889e6ca2cbd18c76a8d86b6076b1a1484d9f5e7e2cd",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 47,
+          "maxSequenceLength": 147
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 47,
+          "maxSequenceLength": 147
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 47,
+          "maxSequenceLength": 147
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "cake",
+      "filename": "cake.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/cake.npz",
+      "bytes": 13581339,
+      "sha256": "59a73e0dddc64c2d5e1e831703c64aea838a282734e1683d38a934e0403d04b3",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 30,
+          "maxSequenceLength": 122
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 30,
+          "maxSequenceLength": 122
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 30,
+          "maxSequenceLength": 122
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "camera",
+      "filename": "camera.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/camera.npz",
+      "bytes": 9707658,
+      "sha256": "765c665d362399978190d296fe635cf8ba1969cf902aafa50aadfb6ba5e75ba9",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 26,
+          "maxSequenceLength": 79
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 26,
+          "maxSequenceLength": 79
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 26,
+          "maxSequenceLength": 79
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "car",
+      "filename": "car.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/car.npz",
+      "bytes": 14481709,
+      "sha256": "26750ae1c2d3064fcfd74568adebb98ed4958ea2e6a02c330d6d9e65978d96b5",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 39,
+          "maxSequenceLength": 123
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 39,
+          "maxSequenceLength": 123
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 39,
+          "maxSequenceLength": 123
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "cat",
+      "filename": "cat.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/cat.npz",
+      "bytes": 14842947,
+      "sha256": "b623cbce910eb6007261ee018a9ffde902a7ce5f2e060ac9e916d14bc5e5b614",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 37,
+          "maxSequenceLength": 129
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 37,
+          "maxSequenceLength": 129
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 37,
+          "maxSequenceLength": 129
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "chair",
+      "filename": "chair.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/chair.npz",
+      "bytes": 6314757,
+      "sha256": "493a1f19771c63b8519b1472e1ff630d54fa40264615a6c7720278b7d0b0ca61",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 8,
+          "maxSequenceLength": 66
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 8,
+          "maxSequenceLength": 66
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 8,
+          "maxSequenceLength": 66
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "clock",
+      "filename": "clock.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/clock.npz",
+      "bytes": 9264242,
+      "sha256": "24b054648d85306bcf06078910ec96947a69c48c5c9463f1726bc95d43b19492",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 25,
+          "maxSequenceLength": 72
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 25,
+          "maxSequenceLength": 72
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 25,
+          "maxSequenceLength": 72
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "cloud",
+      "filename": "cloud.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/cloud.npz",
+      "bytes": 11882216,
+      "sha256": "af880caa628087c0036be1ab01011f3fb4139feafeca5b972e2308dd1020ae26",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 32,
+          "maxSequenceLength": 106
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 32,
+          "maxSequenceLength": 106
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 32,
+          "maxSequenceLength": 106
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "coffee cup",
+      "filename": "coffee cup.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/coffee%20cup.npz",
+      "bytes": 10411495,
+      "sha256": "20b44776556b6b12d660d9fb4c5154c2c2cbc6c27df001701574fd7891ee4c5b",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 24,
+          "maxSequenceLength": 96
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 24,
+          "maxSequenceLength": 96
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 24,
+          "maxSequenceLength": 96
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "computer",
+      "filename": "computer.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/computer.npz",
+      "bytes": 11326718,
+      "sha256": "31ec2945c67eafefd67ab7b8a6471df09571ca7bf949a606e8da3962c0ac0269",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 23,
+          "maxSequenceLength": 103
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 23,
+          "maxSequenceLength": 103
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 23,
+          "maxSequenceLength": 103
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "dog",
+      "filename": "dog.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/dog.npz",
+      "bytes": 15593402,
+      "sha256": "ee9b1ffad4df521f206f606ea72aff30d427a13b7014f2a37d76904648d4f190",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 133
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 133
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 133
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "door",
+      "filename": "door.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/door.npz",
+      "bytes": 6089297,
+      "sha256": "3c58203cea939276d1979655800c673b5793089e494f1adc72ea0e560b55321a",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 13,
+          "maxSequenceLength": 56
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 13,
+          "maxSequenceLength": 56
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 13,
+          "maxSequenceLength": 56
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "eye",
+      "filename": "eye.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/eye.npz",
+      "bytes": 11995012,
+      "sha256": "40ecdf3e42ba71bfc21b7d0963f7356c93994e7b059db356948ed990b67c741f",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 26,
+          "maxSequenceLength": 125
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 26,
+          "maxSequenceLength": 125
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 26,
+          "maxSequenceLength": 125
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "face",
+      "filename": "face.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/face.npz",
+      "bytes": 13945416,
+      "sha256": "32de4ab43c11986769ddc977eff24998a18f760ebcbf4c5e3bf2e66b66a2e1b7",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 33,
+          "maxSequenceLength": 131
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 33,
+          "maxSequenceLength": 131
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 33,
+          "maxSequenceLength": 131
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "fish",
+      "filename": "fish.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/fish.npz",
+      "bytes": 8159962,
+      "sha256": "4c044b149885e4c92a5e2838ba310b9eb0b670902de4f389ac8ab67f4ac0fb9c",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 19,
+          "maxSequenceLength": 75
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 19,
+          "maxSequenceLength": 75
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 19,
+          "maxSequenceLength": 75
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "flower",
+      "filename": "flower.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/flower.npz",
+      "bytes": 13873041,
+      "sha256": "885ec725e49132886b916b8189bd5c9b04b9efb1dc109019b28f97dc88c9cd82",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 39,
+          "maxSequenceLength": 119
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 39,
+          "maxSequenceLength": 119
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 39,
+          "maxSequenceLength": 119
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "hamburger",
+      "filename": "hamburger.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/hamburger.npz",
+      "bytes": 11490949,
+      "sha256": "92959b263701fc088b767c5b464d8a79ab9abd047c9702c73bf78392dd223861",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 27,
+          "maxSequenceLength": 104
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 27,
+          "maxSequenceLength": 104
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 27,
+          "maxSequenceLength": 104
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "hand",
+      "filename": "hand.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/hand.npz",
+      "bytes": 10762296,
+      "sha256": "2979df8ee64af18f3863d0e97211eadeaf33aa98bd250bd6cf64c5014551b94d",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 29,
+          "maxSequenceLength": 86
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 29,
+          "maxSequenceLength": 86
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 29,
+          "maxSequenceLength": 86
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "house",
+      "filename": "house.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/house.npz",
+      "bytes": 7957854,
+      "sha256": "3205d2aff3c48fd68362b60406fbbf695c98cb2398e1789a7ecce9a775e2ee63",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 18,
+          "maxSequenceLength": 69
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 18,
+          "maxSequenceLength": 69
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 18,
+          "maxSequenceLength": 69
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "ice cream",
+      "filename": "ice cream.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/ice%20cream.npz",
+      "bytes": 8695452,
+      "sha256": "06036dcaa48b72ebf9dea2b70b7a21dd3e8ea0ca451fa067f626bd490d67c2e3",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 20,
+          "maxSequenceLength": 79
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 20,
+          "maxSequenceLength": 79
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 20,
+          "maxSequenceLength": 79
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "key",
+      "filename": "key.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/key.npz",
+      "bytes": 9466418,
+      "sha256": "27b94c916287a3bdad3a359da9a2b36c897dbcd6178d5109dd22a5a959a94438",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 25,
+          "maxSequenceLength": 86
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 25,
+          "maxSequenceLength": 86
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 25,
+          "maxSequenceLength": 86
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "light bulb",
+      "filename": "light bulb.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/light%20bulb.npz",
+      "bytes": 8667282,
+      "sha256": "fdaa4589ad847c01a239c5171877cbb46b5c56903ef34138d18e3a2abd23cb72",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 21,
+          "maxSequenceLength": 80
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 21,
+          "maxSequenceLength": 80
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 21,
+          "maxSequenceLength": 80
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "moon",
+      "filename": "moon.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/moon.npz",
+      "bytes": 8134602,
+      "sha256": "1c69babe96fba0c764f924aac17d094120ad05335e1936722115cb565dc44916",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 17,
+          "maxSequenceLength": 126
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 17,
+          "maxSequenceLength": 126
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 17,
+          "maxSequenceLength": 126
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "mountain",
+      "filename": "mountain.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/mountain.npz",
+      "bytes": 5847486,
+      "sha256": "a070e8c2e95c1f550f4739b0a25043e6d4b4cee75b1b9c2e25d3f0b398d5a1b0",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 10,
+          "maxSequenceLength": 58
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 10,
+          "maxSequenceLength": 58
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 10,
+          "maxSequenceLength": 58
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "pencil",
+      "filename": "pencil.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/pencil.npz",
+      "bytes": 7043128,
+      "sha256": "d9158aa55bd350911fa59b27d4775232f9f8d0c3d1f77244c7aef7c426c18cb6",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 13,
+          "maxSequenceLength": 69
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 13,
+          "maxSequenceLength": 69
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 13,
+          "maxSequenceLength": 69
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "pizza",
+      "filename": "pizza.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/pizza.npz",
+      "bytes": 16685734,
+      "sha256": "024d5666020694bd1a8a17f2a68b2c41a3b6538f76169cdaae2e03bef3198f60",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 142
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 142
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 40,
+          "maxSequenceLength": 142
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "rain",
+      "filename": "rain.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/rain.npz",
+      "bytes": 11952272,
+      "sha256": "437eb180be000da4cc84b96bfd542182a7b4493b548f85f143168e299cf14513",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 11,
+          "maxSequenceLength": 128
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 11,
+          "maxSequenceLength": 128
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 11,
+          "maxSequenceLength": 128
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "rainbow",
+      "filename": "rainbow.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/rainbow.npz",
+      "bytes": 8066032,
+      "sha256": "87a00f35b9941b238f22076f35ac431b39159d3b47157d860c97eba2b50cf6f3",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 14,
+          "maxSequenceLength": 108
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 14,
+          "maxSequenceLength": 108
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 14,
+          "maxSequenceLength": 108
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "star",
+      "filename": "star.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/star.npz",
+      "bytes": 6570161,
+      "sha256": "e88c55c314ac60a9f1093a05a45b50ad6eab113b778e09ec5f4bea4c4226b63f",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 15,
+          "maxSequenceLength": 53
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 15,
+          "maxSequenceLength": 53
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 15,
+          "maxSequenceLength": 53
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "sun",
+      "filename": "sun.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/sun.npz",
+      "bytes": 12279395,
+      "sha256": "c2341c4c099479dbd3740fea806258fb8b9f750974280335bb90f610c3485d6f",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 31,
+          "maxSequenceLength": 99
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 31,
+          "maxSequenceLength": 99
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 31,
+          "maxSequenceLength": 99
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "telephone",
+      "filename": "telephone.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/telephone.npz",
+      "bytes": 12048647,
+      "sha256": "1feec3c18586b13c901c5c119c68685a498e8756caeb111cb9e694b9d526429c",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 24,
+          "maxSequenceLength": 124
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 24,
+          "maxSequenceLength": 124
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 24,
+          "maxSequenceLength": 124
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "tree",
+      "filename": "tree.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/tree.npz",
+      "bytes": 14432744,
+      "sha256": "f1bb733b49aabca05fd6417ed28cfabb45f22156cc0b7d23545d7b73230da855",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 35,
+          "maxSequenceLength": 176
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 35,
+          "maxSequenceLength": 176
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 35,
+          "maxSequenceLength": 176
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "truck",
+      "filename": "truck.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/truck.npz",
+      "bytes": 14512287,
+      "sha256": "877a036f899266e5fafc882707950bcde6217319ad87a87dd808db3e715ccb05",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 38,
+          "maxSequenceLength": 119
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 38,
+          "maxSequenceLength": 119
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 38,
+          "maxSequenceLength": 119
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "umbrella",
+      "filename": "umbrella.npz",
+      "url": "https://storage.googleapis.com/quickdraw_dataset/sketchrnn/umbrella.npz",
+      "bytes": 8781541,
+      "sha256": "c3aab9ce679839a6c42f7f8d40fa9e16610f67cf3ed42695910c6a96d9454f85",
+      "splits": {
+        "train": {
+          "count": 70000,
+          "minSequenceLength": 19,
+          "maxSequenceLength": 74
+        },
+        "valid": {
+          "count": 2500,
+          "minSequenceLength": 19,
+          "maxSequenceLength": 74
+        },
+        "test": {
+          "count": 2500,
+          "minSequenceLength": 19,
+          "maxSequenceLength": 74
+        }
+      },
+      "dtypes": [
+        "int16"
+      ],
+      "penStates": [
+        0,
+        1
+      ]
+    }
+  ],
+  "fingerprint": "91aa4345a785276c8ddd3afeb659f9418117121e4b03d12accdcb466351654e7"
+}

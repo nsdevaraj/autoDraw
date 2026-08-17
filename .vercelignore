@@ -1,0 +1,10 @@
+.cache/
+.venv-model/
+.vercel/
+dist/
+datasets/
+tests/
+__pycache__/
+*.pyc
+data/svgdepot-index.json
+data/svgdepot-index.json.gz

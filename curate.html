@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quick Draw Icon Curator</title>
+  <style>
+    :root {
+      color-scheme: dark light;
+      --bg: #10161f;
+      --bg-alt: #141d27;
+      --surface: #1a2531;
+      --surface-2: #22303e;
+      --surface-3: #2a3a48;
+      --border: rgba(174, 190, 204, 0.2);
+      --border-strong: rgba(174, 190, 204, 0.38);
+      --text: #edf3f7;
+      --muted: #9caebb;
+      --accent: #4ec9e8;
+      --accent-text: #062732;
+      --accent-soft: rgba(78, 201, 232, 0.13);
+      --accept: #42c77b;
+      --accept-soft: rgba(66, 199, 123, 0.14);
+      --reject: #f07178;
+      --reject-soft: rgba(240, 113, 120, 0.14);
+      --warning: #efbd62;
+      --shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #eaf0f3;
+        --bg-alt: #f4f7f8;
+        --surface: #ffffff;
+        --surface-2: #f2f6f7;
+        --surface-3: #e4ecef;
+        --border: rgba(29, 53, 67, 0.14);
+        --border-strong: rgba(29, 53, 67, 0.28);
+        --text: #172630;
+        --muted: #5f747f;
+        --accent: #087f9e;
+        --accent-text: #ffffff;
+        --accent-soft: rgba(8, 127, 158, 0.1);
+        --accept: #006b38;
+        --accept-soft: rgba(22, 136, 77, 0.1);
+        --reject: #9f2630;
+        --reject-soft: rgba(200, 73, 80, 0.1);
+        --warning: #9b690e;
+        --shadow: 0 12px 30px rgba(59, 83, 96, 0.14);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      min-width: 320px;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--bg), var(--bg-alt));
+      color: var(--text);
+      font-family: "Avenir Next", Avenir, "Trebuchet MS", sans-serif;
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+
+    button, input { font: inherit; letter-spacing: 0; }
+
+    button { color: inherit; }
+
+    button:focus-visible, input:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .app {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .app-header {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 10px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+      z-index: 2;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: max-content;
+      color: var(--accent);
+      font-weight: 750;
+      font-size: 16px;
+    }
+
+    .brand svg { flex: 0 0 auto; }
+
+    .progress-block {
+      flex: 1;
+      min-width: 180px;
+      max-width: 500px;
+    }
+
+    .progress-copy {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .progress-track {
+      height: 5px;
+      overflow: hidden;
+      border-radius: 3px;
+      background: var(--surface-3);
+    }
+
+    #progressFill {
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 180ms ease;
+    }
+
+    .header-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .button {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface-2);
+      color: var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .button:hover { border-color: var(--border-strong); background: var(--surface-3); }
+    .button.primary { border-color: var(--accent); background: var(--accent); color: var(--accent-text); font-weight: 700; }
+    .button.danger { color: var(--reject); }
+    .button:disabled { cursor: not-allowed; opacity: 0.45; }
+    .button svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+    .workspace {
+      width: 100%;
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 288px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+    }
+
+    .sidebar-controls {
+      display: grid;
+      gap: 9px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .segmented {
+      min-width: 0;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+      gap: 2px;
+      padding: 2px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-alt);
+    }
+
+    .segmented button {
+      min-width: 0;
+      min-height: 29px;
+      padding: 0 7px;
+      overflow: hidden;
+      border: 0;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+
+    .segmented button[aria-pressed="true"] {
+      background: var(--surface-3);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+    }
+
+    .search-input {
+      width: 100%;
+      height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface-2);
+      color: var(--text);
+    }
+
+    .search-input::placeholder { color: var(--muted); }
+
+    .search-field {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .queue-summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .class-list {
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      padding: 6px;
+    }
+
+    .class-row {
+      width: 100%;
+      min-height: 44px;
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .class-row:hover { background: var(--surface-2); }
+    .class-row.active { border-color: var(--accent); background: var(--accent-soft); }
+    .class-row.active .class-count { color: var(--text); }
+
+    .class-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border-strong);
+    }
+
+    .class-row.reviewed .class-dot { background: var(--accept); }
+    .class-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+    .class-count { color: var(--muted); font-size: 11px; white-space: nowrap; }
+
+    .empty-list {
+      padding: 28px 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .main {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .state-panel {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      margin: 0 auto 12px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 700ms linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .curation-panel {
+      min-height: 0;
+      flex: 1;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
+    .class-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 76%, transparent);
+    }
+
+    .class-heading { min-width: 0; flex: 1; }
+    .class-heading h1 { margin: 0; font-size: 21px; line-height: 1.2; }
+    .class-meta { margin-top: 4px; color: var(--muted); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .review-button.reviewed {
+      border-color: var(--accept);
+      background: var(--accept-soft);
+      color: var(--accept);
+    }
+
+    .candidate-scroll { min-height: 0; overflow: auto; padding: 16px; }
+
+    .candidate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(218px, 1fr));
+      gap: 10px;
+    }
+
+    .candidate-card {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: 148px minmax(74px, auto) 38px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+      transition: border-color 120ms ease, transform 120ms ease;
+    }
+
+    .candidate-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .candidate-card.accepted { border-color: var(--accept); box-shadow: inset 0 0 0 1px var(--accept); }
+    .candidate-card.rejected { border-color: var(--reject); }
+    .candidate-card.rejected .candidate-preview img { filter: grayscale(1); opacity: 0.48; }
+
+    .candidate-preview {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 18px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .candidate-preview img { width: 100%; height: 100%; object-fit: contain; }
+    .candidate-preview img.failed { visibility: hidden; }
+
+    .image-failure {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      padding: 16px;
+      color: #7d373b;
+      background: #f8e9ea;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .candidate-preview img.failed + .image-failure { display: grid; }
+
+    .candidate-body { min-width: 0; padding: 9px 10px; }
+    .candidate-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 700; }
+    .candidate-source { margin-top: 4px; overflow: hidden; color: var(--muted); text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+    .candidate-score { margin-top: 5px; color: var(--warning); font-size: 10px; font-variant-numeric: tabular-nums; }
+
+    .decision-row { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+
+    .decision-button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .decision-button + .decision-button { border-left: 1px solid var(--border); }
+    .decision-button:hover { background: var(--surface-2); color: var(--text); }
+    .decision-button.accept[aria-pressed="true"] { background: var(--accept-soft); color: var(--accept); }
+    .decision-button.reject[aria-pressed="true"] { background: var(--reject-soft); color: var(--reject); }
+
+    .class-navigation {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 16px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .selection-summary { color: var(--muted); font-size: 12px; }
+    .nav-buttons { display: flex; gap: 6px; }
+
+    .toast-region {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 10;
+      display: grid;
+      gap: 7px;
+      pointer-events: none;
+    }
+
+    .toast {
+      max-width: min(360px, calc(100vw - 36px));
+      padding: 9px 12px;
+      border: 1px solid var(--border-strong);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      animation: enter 150ms ease;
+    }
+
+    .toast.error { border-left-color: var(--reject); }
+    @keyframes enter { from { opacity: 0; transform: translateY(6px); } }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 920px) {
+      .app-header { gap: 10px; }
+      .button-label.optional { display: none; }
+      .workspace { grid-template-columns: 250px minmax(0, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      body { overflow-x: hidden; overflow-y: auto; }
+      .app { min-height: 100%; height: auto; grid-template-rows: auto auto; }
+      .app-header { align-items: flex-start; flex-wrap: wrap; }
+      .progress-block { order: 3; flex-basis: 100%; max-width: none; }
+      .header-actions { flex: 1; }
+      .workspace { min-height: calc(100vh - 116px); grid-template-columns: 1fr; grid-template-rows: 240px minmax(520px, auto); }
+      .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
+      .sidebar-controls { grid-template-columns: 1fr 1fr; }
+      .sidebar-controls .search-field, .queue-summary { grid-column: 1 / -1; }
+      .class-list { width: 100%; max-width: 100vw; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(170px, 220px); overflow-x: auto; overflow-y: hidden; }
+      .class-row { align-self: stretch; }
+      .main { min-height: 520px; }
+    }
+
+    @media (max-width: 470px) {
+      .brand span { display: none; }
+      .header-actions { gap: 4px; }
+      .button { padding: 0 9px; }
+      .button-label { display: none; }
+      .sidebar-controls { grid-template-columns: 1fr; }
+      .sidebar-controls .search-field, .queue-summary { grid-column: auto; }
+      .class-header { align-items: flex-start; flex-wrap: wrap; }
+      .review-button { width: 100%; }
+      .candidate-grid { grid-template-columns: 1fr; }
+      .class-navigation { align-items: stretch; flex-direction: column; }
+      .nav-buttons { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 17l4 4 14-14-4-4L3 17z"/><path d="M14 6l4 4"/><path d="M7 17l2 2"/>
+        </svg>
+        <span>Quick Draw Curator</span>
+      </div>
+
+      <div class="progress-block">
+        <div class="progress-copy">
+          <span id="progressText">Loading manifest</span>
+          <span id="decisionStats"></span>
+        </div>
+        <div class="progress-track" aria-hidden="true"><div id="progressFill"></div></div>
+      </div>
+
+      <div class="header-actions">
+        <button class="button" id="importButton" type="button" title="Import progress" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span class="button-label optional">Import</span>
+        </button>
+        <button class="button" id="exportProgressButton" type="button" title="Export progress" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21V9"/><path d="M17 14l-5-5-5 5"/><path d="M5 3h14"/></svg>
+          <span class="button-label optional">Progress</span>
+        </button>
+        <button class="button primary" id="exportCuratedButton" type="button" title="Export accepted icons" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          <span class="button-label">Export icons</span>
+        </button>
+        <button class="button danger" id="resetButton" type="button" title="Reset progress" aria-label="Reset progress" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 15H6L5 6"/></svg>
+        </button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Quick Draw classes">
+        <div class="sidebar-controls">
+          <div class="segmented" role="group" aria-label="Class scope">
+            <button type="button" data-scope="mvp" aria-pressed="true">MVP 40</button>
+            <button type="button" data-scope="all" aria-pressed="false">All 345</button>
+          </div>
+          <div class="segmented" role="group" aria-label="Review status">
+            <button type="button" data-status="all" aria-pressed="true">All</button>
+            <button type="button" data-status="pending" aria-pressed="false">Pending</button>
+            <button type="button" data-status="reviewed" aria-pressed="false">Reviewed</button>
+          </div>
+          <label class="search-field" for="classSearch">
+            <span>Filter classes</span>
+            <input class="search-input" id="classSearch" type="search" placeholder="Name or alias" autocomplete="off" spellcheck="false">
+          </label>
+          <div class="queue-summary"><span id="queueLabel">0 classes</span><span id="sourceLabel"></span></div>
+        </div>
+        <div class="class-list" id="classList"></div>
+      </aside>
+
+      <main class="main">
+        <div class="state-panel" id="statePanel">
+          <div><div class="spinner"></div><div id="stateMessage">Loading candidate manifest</div></div>
+        </div>
+
+        <section class="curation-panel hidden" id="curationPanel">
+          <header class="class-header">
+            <div class="class-heading">
+              <h1 id="className" aria-live="polite" aria-atomic="true"></h1>
+              <div class="class-meta" id="classMeta"></div>
+            </div>
+            <button class="button review-button" id="reviewButton" type="button"></button>
+          </header>
+
+          <div class="candidate-scroll" id="candidateScroll">
+            <div class="candidate-grid" id="candidateGrid"></div>
+          </div>
+
+          <footer class="class-navigation">
+            <div class="selection-summary" id="selectionSummary"></div>
+            <div class="nav-buttons">
+              <button class="button" id="previousButton" type="button">Previous</button>
+              <button class="button" id="nextButton" type="button">Next</button>
+            </div>
+          </footer>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+  <script type="module" src="./src/curation-app.mjs"></script>
+</body>
+</html>

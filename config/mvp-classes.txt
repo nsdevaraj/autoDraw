@@ -1,0 +1,40 @@
+airplane
+apple
+banana
+bicycle
+bird
+book
+bus
+cake
+camera
+car
+cat
+chair
+clock
+cloud
+coffee cup
+computer
+dog
+door
+eye
+face
+fish
+flower
+hamburger
+hand
+house
+ice cream
+key
+light bulb
+moon
+mountain
+pencil
+pizza
+rain
+rainbow
+star
+sun
+telephone
+tree
+truck
+umbrella

@@ -1,0 +1,11 @@
+{
+  "name": "autodraw-offline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "onnxruntime-web": "1.22.0"
+  }
+}
