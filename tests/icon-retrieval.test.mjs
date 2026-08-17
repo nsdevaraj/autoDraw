@@ -4,7 +4,13 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import test from 'node:test';
 import { gzipSync } from 'node:zlib';
 
-import { createIconRetrievalIndex, loadIconRetrievalIndex, retrieveIcons } from '../src/icon-retrieval.mjs';
+import {
+  createIconRetrievalIndex,
+  iconRetrievalCoverage,
+  loadIconRetrievalIndex,
+  retrieveIcons,
+  warmIconRetrievalIndex,
+} from '../src/icon-retrieval.mjs';
 
 const INDEX_DIRECTORY = 'data/icon-embeddings';
 const INDEX_PATH = `${INDEX_DIRECTORY}/index.json`;
@@ -184,6 +190,73 @@ test('captions read as the icon rather than the encoder class guess', async () =
   assert.equal(second.label, 'sparkle');
 });
 
+test('warming loads every shard so the whole corpus becomes searchable', async () => {
+  const { document, fetchImpl } = fixture();
+  const index = createIconRetrievalIndex(document);
+
+  assert.deepEqual(iconRetrievalCoverage(index), {
+    shards: 0,
+    totalShards: 2,
+    vectors: 0,
+    totalVectors: 3,
+  });
+
+  const coverage = await warmIconRetrievalIndex(index, { fetchImpl, concurrency: 2 });
+  assert.equal(coverage.failed, 0);
+  assert.equal(coverage.shards, 2);
+  assert.equal(coverage.vectors, 3);
+  assert.equal(coverage.vectors, coverage.totalVectors);
+});
+
+test('a warmed index scores resident shards the probe order would have skipped', async () => {
+  const { document, fetchImpl } = fixture();
+  const index = createIconRetrievalIndex(document);
+  await warmIconRetrievalIndex(index, { fetchImpl, concurrency: 1 });
+
+  const offline = async () => {
+    throw new Error('a warmed index must not refetch shards');
+  };
+  const results = await retrieveIcons(index, {
+    embedding: query([1]),
+    probes: 1,
+    lexicalWeight: 0,
+    fetchImpl: offline,
+  });
+
+  // The truck sits in the cluster the single probe skips, yet it is still ranked.
+  assert.deepEqual(results.map(item => item.id), [10, 11, 20]);
+});
+
+test('warming survives an unreachable shard and reports the shortfall', async () => {
+  const { document, files, fetchImpl } = fixture();
+  const index = createIconRetrievalIndex(document);
+  files.delete('./shard-1.bin');
+
+  const coverage = await warmIconRetrievalIndex(index, { fetchImpl, concurrency: 2 });
+  assert.equal(coverage.failed, 1);
+  assert.equal(coverage.shards, 1);
+  assert.equal(coverage.vectors, 2);
+
+  const results = await retrieveIcons(index, {
+    embedding: query([1]),
+    probes: 1,
+    lexicalWeight: 0,
+    fetchImpl,
+  });
+  assert.deepEqual(results.map(item => item.id), [10, 11]);
+});
+
+test('warm arguments are validated', async () => {
+  const { document, fetchImpl } = fixture();
+  const index = createIconRetrievalIndex(document);
+  await assert.rejects(() => warmIconRetrievalIndex({}, { fetchImpl }), /retrieval index/);
+  await assert.rejects(
+    () => warmIconRetrievalIndex(index, { fetchImpl, concurrency: 0 }),
+    /concurrency/,
+  );
+  assert.throws(() => iconRetrievalCoverage({}), /retrieval index/);
+});
+
 test('every retrieved icon carries a commit-pinned URL rebuilt from its path', async () => {
   const { document, fetchImpl } = fixture();
   const index = createIconRetrievalIndex(document);
@@ -305,13 +378,24 @@ test('the tracked icon index covers the corpus and stays within its budgets', { 
   assert.equal(document.counts.vectors > 150000, true);
   assert.equal(index.shards.length, document.clustering.count);
 
-  // First paint fetches index.json plus a few shards, so the entry point stays small.
+  // First paint fetches index.json plus the probed shards, so the entry point stays small.
   assert.equal(readFileSync(INDEX_PATH).length < 200 * 1024, true);
-  const worstProbe = [...document.shards]
-    .sort((left, right) => right.bytes - left.bytes)
-    .slice(0, 4)
-    .reduce((total, shard) => total + shard.bytes + shard.metaBytes, 0);
-  assert.equal(worstProbe < 1024 * 1024, true, 'worst-case four-shard probe must stay under 1 MB');
+  const byPayload = [...document.shards]
+    .sort((left, right) => (right.bytes + right.metaBytes) - (left.bytes + left.metaBytes));
+  const payload = shards => shards.reduce((total, shard) => total + shard.bytes + shard.metaBytes, 0);
+  assert.equal(
+    payload(byPayload.slice(0, 16)) < 4 * 1024 * 1024,
+    true,
+    'worst-case sixteen-shard probe must stay under 4 MB',
+  );
+
+  // Warming the rest of the corpus in the background is what makes every icon searchable,
+  // so the whole shard set has to stay a background-sized download.
+  assert.equal(
+    payload(document.shards) < 32 * 1024 * 1024,
+    true,
+    'the full corpus warm-up must stay under 32 MB',
+  );
 });
 
 test('every tracked shard matches the hash the index records', { skip: !artifactPresent }, () => {

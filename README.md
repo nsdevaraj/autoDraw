@@ -31,9 +31,23 @@ To use a different address or port:
 node scripts/serve-curation.mjs --host 0.0.0.0 --port 8080
 ```
 
+### Serving with a generic static server
+
+`scripts/serve-curation.mjs` maps `/vendor/` onto `node_modules`, which a generic static
+server cannot do. Copy the ONNX Runtime files into a real `vendor/` directory first:
+
+```sh
+npm run vendor
+npx http-server . -p 8080 -c-1
+```
+
+Without that copy, `/vendor/ort.wasm.min.mjs` returns 404 and the header stays on
+"Loading model". Serve with caching disabled (`-c-1`) while editing, or the browser will keep
+running a stale copy of the app for an hour.
+
 Draw on the canvas and choose any suggestion to replace the active sketch. All ranked candidates are treated as approved; curation is not required. The editor includes undo, redo, clear, ink controls, and SVG export.
 
-Icon URLs are never stored in the index. They are rebuilt from the pinned commit through `expectedIconUrl()`, so the approved-URL invariant holds by construction. The app requests icons through a local route that serves `.cache/svgdepot` when present and otherwise proxies the commit-pinned jsDelivr URL, so a clean clone runs without preprocessing.
+Icon URLs are never stored in the index. They are rebuilt from the pinned commit through `expectedIconUrl()`, so the approved-URL invariant holds by construction. The app loads icons from that commit-pinned jsDelivr URL by default, so it works under any static server. Adding `?icons=local` to the page URL prefers the local `/svgdepot/` route instead, which serves `.cache/svgdepot` when present and otherwise proxies the same pinned URL, keeping icon traffic same-origin. If the chosen source fails, the app falls back to the other one and remembers that choice for the session.
 
 If the embedder or the icon index cannot be loaded, the editor falls back to the classifier and the approved candidate manifest, which only covers the 37 supervised classes.
 

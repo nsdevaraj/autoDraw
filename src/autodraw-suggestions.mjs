@@ -1,5 +1,5 @@
 import { assertApprovedIconSource } from './icon-candidate.mjs';
-import { retrieveIcons } from './icon-retrieval.mjs';
+import { iconRetrievalCoverage, retrieveIcons, warmIconRetrievalIndex } from './icon-retrieval.mjs';
 
 const APPROVED_INDEX = Symbol('approved-candidate-index');
 
@@ -158,6 +158,8 @@ export function createRetrievalSuggestionSource({ embedder, index, ...defaults }
   return Object.freeze({
     kind: 'retrieval',
     coverage: index.counts?.vectors ?? 0,
+    searchable: () => iconRetrievalCoverage(index).vectors,
+    warm: (options = {}) => warmIconRetrievalIndex(index, options),
     async suggest(polylines, options = {}) {
       const embedded = await embedder.embed(polylines, { limit: 5 });
       if (embedded === null) return [];

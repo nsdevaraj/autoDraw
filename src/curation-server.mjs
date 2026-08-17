@@ -15,7 +15,9 @@ const CONTENT_TYPES = {
   '.txt': 'text/plain; charset=utf-8',
   '.wasm': 'application/wasm',
 };
-const CONTENT_SECURITY_POLICY = "default-src 'self'; img-src 'self' https://cdn.jsdelivr.net data:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
+// SVG export fetches the same approved icon bytes that img-src already renders, so the one
+// pinned CDN host is allowed to connect as well.
+const CONTENT_SECURITY_POLICY = "default-src 'self'; img-src 'self' https://cdn.jsdelivr.net data:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cdn.jsdelivr.net; object-src 'none'; base-uri 'none'; frame-ancestors 'none'";
 
 const SERVED_PATHS = new Map([
   ['/', 'index.html'],

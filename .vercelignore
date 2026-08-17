@@ -2,6 +2,7 @@
 .venv-model/
 .vercel/
 dist/
+vendor/
 datasets/
 tests/
 __pycache__/

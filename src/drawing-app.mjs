@@ -130,16 +130,34 @@ function renderCanvas() {
   if (activeStroke) drawStroke(activeStroke);
 }
 
+// Icons come from the commit-pinned CDN URL by default: it is the approved URL the index
+// derives, and it works under any static server. The local /svgdepot/ route only exists when
+// the bundled server runs, so it is the fallback (and can be forced with ?icons=local for an
+// offline .cache/svgdepot). Whichever source answers first wins for the rest of the session.
+let preferLocalIcons = new URLSearchParams(location.search).get('icons') === 'local';
+
 function localIconUrl(path) {
-  return `/svgdepot/${path.split('/').map(encodeURIComponent).join('/')}`;
+  return new URL(`/svgdepot/${path.split('/').map(encodeURIComponent).join('/')}`, location.href).href;
+}
+
+function iconSources(icon) {
+  const local = localIconUrl(icon.path);
+  const primaryIsLocal = preferLocalIcons;
+  return primaryIsLocal
+    ? { primary: local, fallback: icon.url, primaryIsLocal }
+    : { primary: icon.url, fallback: local, primaryIsLocal };
 }
 
 function loadIconImage(image, icon) {
+  const { primary, fallback, primaryIsLocal } = iconSources(icon);
   image.addEventListener('error', () => {
-    if (image.src === icon.url) return;
-    image.src = icon.url;
+    if (image.src === fallback) return;
+    // Assigning the opposite of the source that just failed keeps a whole batch of
+    // simultaneous failures from toggling the preference back and forth.
+    preferLocalIcons = !primaryIsLocal;
+    image.src = fallback;
   }, { once: true });
-  image.src = localIconUrl(icon.path);
+  image.src = primary;
 }
 
 function renderIcons() {
@@ -348,11 +366,21 @@ function blobDataUrl(blob) {
   });
 }
 
+async function fetchIcon(icon) {
+  const { primary, fallback, primaryIsLocal } = iconSources(icon);
+  try {
+    const response = await fetch(primary, { cache: 'no-store' });
+    if (response.ok) return response;
+  } catch {}
+  preferLocalIcons = !primaryIsLocal;
+  return fetch(fallback, { cache: 'no-store' });
+}
+
 async function embeddedIconData(state) {
   const iconDataByPath = new Map();
   for (const icon of state.icons) {
     if (iconDataByPath.has(icon.path)) continue;
-    const response = await fetch(localIconUrl(icon.path), { cache: 'no-store' });
+    const response = await fetchIcon(icon);
     if (!response.ok) throw new Error(`Could not embed ${icon.label}: HTTP ${response.status}`);
     iconDataByPath.set(icon.path, await blobDataUrl(await response.blob()));
   }
@@ -477,6 +505,24 @@ async function startCandidates() {
   }
 }
 
+// A cold index scores only the probed clusters, so the rest of the corpus is fetched
+// after first paint; each loaded shard widens the search on the next stroke.
+function warmCorpus(source) {
+  if (typeof source.warm !== 'function') return;
+  const start = () => {
+    source.warm({ concurrency: 4 }).then(coverage => {
+      if (coverage.failed > 0 && coverage.vectors === 0) {
+        toast('Icon corpus could not be warmed; suggestions stay limited to probed clusters');
+      }
+    }).catch(() => {});
+  };
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(start, { timeout: 3000 });
+  } else {
+    setTimeout(start, 1500);
+  }
+}
+
 async function initialize() {
   ort.env.wasm.numThreads = 1;
   ort.env.wasm.wasmPaths = '/vendor/';
@@ -499,6 +545,7 @@ async function initialize() {
   setRuntimeStatus('Ready', 'ready');
   suggestionState.textContent = 'Ready';
   queueRecognition();
+  warmCorpus(source);
 }
 
 handleStageResize();
