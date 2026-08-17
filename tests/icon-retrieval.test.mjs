@@ -33,27 +33,7 @@ function shardBinary(vectors) {
   return Buffer.concat([Buffer.from(codes.buffer), Buffer.from(scales.buffer)]);
 }
 
-// Two shards: one holding star-like vectors, one holding an orthogonal cluster.
-function fixture() {
-  const shards = [
-    {
-      centroid: [1, 0, 0, 0, 0, 0, 0, 0],
-      vectors: [
-        [1, 0, 0, 0, 0, 0, 0, 0],
-        [0.94, 0.34, 0, 0, 0, 0, 0, 0],
-      ],
-      icons: [
-        [10, 'Art, Design & Patterns/pack-a/332169-star.svg', 3, 0],
-        [11, 'Art, Design & Patterns/pack-a/332170-sparkle.svg', 1, 1],
-      ],
-    },
-    {
-      centroid: [0, 1, 0, 0, 0, 0, 0, 0],
-      vectors: [[0, 1, 0, 0, 0, 0, 0, 0]],
-      icons: [[20, 'Travel & Transportation/pack-b/900-truck.svg', 1, 2]],
-    },
-  ];
-
+function buildDocument(shards, counts) {
   const files = new Map();
   const centroidCodes = [];
   const centroidScales = [];
@@ -87,7 +67,7 @@ function fixture() {
     source: { ...SOURCE },
     classes: ['star', 'sparkle', 'truck'],
     embedding: { dim: DIM, dtype: 'int8', scale: 'per-vector-float32', metric: 'dot' },
-    counts: { icons: 3, vectors: 3 },
+    counts,
     clustering: {
       count: shards.length,
       seed: 1,
@@ -110,6 +90,56 @@ function fixture() {
   };
 
   return { document, files, fetchImpl };
+}
+
+// Two shards: one holding star-like vectors, one holding an orthogonal cluster.
+function fixture() {
+  const shards = [
+    {
+      centroid: [1, 0, 0, 0, 0, 0, 0, 0],
+      vectors: [
+        [1, 0, 0, 0, 0, 0, 0, 0],
+        [0.94, 0.34, 0, 0, 0, 0, 0, 0],
+      ],
+      icons: [
+        [10, 'Art, Design & Patterns/pack-a/332169-star.svg', 3, 0],
+        [11, 'Art, Design & Patterns/pack-a/332170-sparkle.svg', 1, 1],
+      ],
+    },
+    {
+      centroid: [0, 1, 0, 0, 0, 0, 0, 0],
+      vectors: [[0, 1, 0, 0, 0, 0, 0, 0]],
+      icons: [[20, 'Travel & Transportation/pack-b/900-truck.svg', 1, 2]],
+    },
+  ];
+
+  return buildDocument(shards, { icons: 3, vectors: 3 });
+}
+
+// A corpus wide enough that the ranking has to discard far more icons than it keeps.
+function randomCorpus({ shards: shardCount = 6, perShard = 64, seed = 7 } = {}) {
+  let state = seed;
+  const random = () => {
+    state = (state * 1103515245 + 12345) % 2147483648;
+    return state / 2147483648;
+  };
+  const words = ['star', 'sparkle', 'truck', 'wheel', 'orbit', 'comet'];
+
+  const shards = Array.from({ length: shardCount }, (_, shardId) => {
+    const centroid = Array.from({ length: DIM }, () => random() * 2 - 1);
+    return {
+      centroid,
+      vectors: Array.from({ length: perShard }, () => centroid.map(value => value + (random() - 0.5))),
+      icons: Array.from({ length: perShard }, (_, position) => [
+        shardId * perShard + position,
+        `Art, Design & Patterns/pack-${shardId}/${1000 + position}-${words[Math.floor(random() * words.length)]}.svg`,
+        1,
+        Math.floor(random() * 3),
+      ]),
+    };
+  });
+
+  return buildDocument(shards, { icons: shardCount * perShard, vectors: shardCount * perShard });
 }
 
 function query(values) {
@@ -244,6 +274,33 @@ test('warming survives an unreachable shard and reports the shortfall', async ()
     fetchImpl,
   });
   assert.deepEqual(results.map(item => item.id), [10, 11]);
+});
+
+test('a bounded ranking returns exactly the head of the full ranking', async () => {
+  const { document, fetchImpl } = randomCorpus();
+  const index = createIconRetrievalIndex(document);
+  await warmIconRetrievalIndex(index, { fetchImpl, concurrency: 3 });
+
+  const embedding = query([0.6, -0.2, 0.9, 0.1, -0.7, 0.3, 0.4, -0.5]);
+  const predictions = [
+    { classIndex: 0, probability: 0.62, label: 'star' },
+    { classIndex: 2, probability: 0.21, label: 'truck' },
+  ];
+  const total = document.counts.vectors;
+
+  for (const lexicalWeight of [0, 0.25, 1]) {
+    const options = { embedding, predictions, probes: 1, lexicalWeight, fetchImpl };
+    const complete = await retrieveIcons(index, { ...options, limit: total });
+    const bounded = await retrieveIcons(index, { ...options, limit: 12 });
+
+    assert.equal(complete.length, total);
+    assert.deepEqual(
+      bounded.map(item => item.id),
+      complete.slice(0, 12).map(item => item.id),
+      `bounded ranking diverged at lexicalWeight ${lexicalWeight}`,
+    );
+    assert.deepEqual(bounded.map(item => item.score), complete.slice(0, 12).map(item => item.score));
+  }
 });
 
 test('warm arguments are validated', async () => {

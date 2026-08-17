@@ -271,6 +271,13 @@ function lexicalPrior(entry, predictionByClass, predictionTokens) {
   return prior;
 }
 
+// The ranking is the same total order the old full sort produced: score first, then the
+// stable icon id, so results do not depend on how many shards happened to be resident.
+function ranksBefore(left, right) {
+  return left.score > right.score
+    || (left.score === right.score && left.entry[0] < right.entry[0]);
+}
+
 export async function retrieveIcons(index, {
   embedding,
   predictions = [],
@@ -314,31 +321,44 @@ export async function retrieveIcons(index, {
   for (const shardId of index.loaded.keys()) scanIds.add(shardId);
   const shards = await Promise.all([...scanIds].map(id => loadShard(index, id, fetchImpl)));
 
-  const scored = [];
+  // A warmed index scores every icon in the corpus on each stroke, so the ranking keeps only
+  // the current best `limit` and never materialises the losers. The lexical prior can lift a
+  // score by at most `maxPrior`, so anything whose best possible score cannot reach the
+  // running cut-off is skipped before its filename is ever tokenized.
+  const cosineWeight = 1 - lexicalWeight;
+  const maxPrior = lexicalWeight > 0
+    ? predictionTokens.reduce((best, { probability }) => Math.max(best, probability), 0)
+    : 0;
+  const priorCeiling = lexicalWeight * maxPrior;
+
+  const ranked = [];
+  let cutoff = Number.NEGATIVE_INFINITY;
+  const { dim } = index;
   for (const shard of shards) {
-    for (let position = 0; position < shard.icons.length; position += 1) {
+    const { codes, scales, icons } = shard;
+    for (let position = 0; position < icons.length; position += 1) {
       let sum = 0;
-      const base = position * index.dim;
-      for (let axis = 0; axis < index.dim; axis += 1) {
-        sum += shard.codes[base + axis] * embedding[axis];
+      const base = position * dim;
+      for (let axis = 0; axis < dim; axis += 1) {
+        sum += codes[base + axis] * embedding[axis];
       }
-      const entry = shard.icons[position];
-      const cosine = sum * shard.scales[position];
+      const cosine = sum * scales[position];
+      if (ranked.length === limit && cosineWeight * cosine + priorCeiling < cutoff) continue;
+
+      const entry = icons[position];
       const prior = lexicalWeight > 0 ? lexicalPrior(entry, predictionByClass, predictionTokens) : 0;
-      scored.push({
-        entry,
-        cosine,
-        prior,
-        score: (1 - lexicalWeight) * cosine + lexicalWeight * prior,
-      });
+      const candidate = { entry, cosine, prior, score: cosineWeight * cosine + lexicalWeight * prior };
+      let slot = ranked.length;
+      while (slot > 0 && ranksBefore(candidate, ranked[slot - 1])) slot -= 1;
+      if (slot >= limit) continue;
+      ranked.splice(slot, 0, candidate);
+      if (ranked.length > limit) ranked.pop();
+      if (ranked.length === limit) cutoff = ranked[limit - 1].score;
     }
   }
 
-  scored.sort((left, right) => right.score - left.score || left.entry[0] - right.entry[0]);
-
   const suggestions = [];
-  for (const { entry, cosine, prior, score } of scored) {
-    if (suggestions.length === limit) break;
+  for (const { entry, cosine, prior, score } of ranked) {
     const [id, path, duplicates, auxClass] = entry;
     if (!Number.isInteger(id) || !isConfinedSvgPath(path)) {
       throw new Error(`Shard entry ${id} is malformed`);

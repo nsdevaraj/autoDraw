@@ -4,6 +4,8 @@ This repository contains a local AutoDraw-style canvas, the browser retrieval ru
 
 Suggestions are produced by embedding the sketch and searching an index that covers **every icon in the pinned SVGDepot commit** (210,199 files, 185,409 distinct shapes). The ONNX model is a shared encoder, not a per-icon classifier: it maps a 64x64 stroke bitmap to a 64-dimension unit vector, so corpus coverage is a property of the index rather than of the model weights. Icons outside the 37 supervised classes are reached zero-shot on shape.
 
+The index is an IVF structure of 256 shards. The first stroke is answered from the probed shards alone so suggestions appear immediately, and the remaining shards (15.6 MB in total) are fetched in the background after first paint. Once the corpus is warm every stroke is scored against all 185,409 shapes rather than against the couple of percent a probe reaches, and ranking stays bounded to the requested number of suggestions so the wider search costs milliseconds rather than seconds.
+
 ## Requirements
 
 - Node.js 24 and npm
@@ -103,7 +105,7 @@ Then encode, cluster, and shard:
 .venv-model/bin/python scripts/build-icon-embedding-index.py --jobs 8
 ```
 
-This rasterizes every distinct SVG through the same worker the training cache uses, encodes it with the tracked embedder, deduplicates identical bitmaps, runs a deterministic spherical k-means (k=256), and writes `index.json` plus one `.bin` and one `.meta.json.gz` per shard. First paint fetches `index.json` and only the probed shards.
+This rasterizes every distinct SVG through the same worker the training cache uses, encodes it with the tracked embedder, deduplicates identical bitmaps, runs a deterministic spherical k-means (k=256), and writes `index.json` plus one `.bin` and one `.meta.json.gz` per shard. First paint fetches `index.json` and only the probed shards; the editor then warms the rest in the background so later strokes search the whole corpus.
 
 ## Rebuild and verify the model
 
